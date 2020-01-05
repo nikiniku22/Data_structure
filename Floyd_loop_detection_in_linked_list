@@ -1,0 +1,95 @@
+/*
+	Name: Nikita Bari
+	Author: Nikita Bari
+	Date: 05/01/20 09:59
+	Description: Floyd Loop Detection
+*/
+
+
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+	int data;
+	struct node *next;
+};
+struct node *head=NULL;
+void display();
+void floydCycle();
+void insertt();
+void push(int);
+void main()
+{
+	int ch;
+	do
+	{
+		printf("Enter Your Choice\n1.Insert\n2.Display");
+		scanf("%d",&ch);
+		switch(ch)
+		{
+			case 1:
+				insertt();
+				floydCycle();
+			break;
+			case 2:
+				display();
+			break;		
+		}
+		printf("Do you want to continue? press 1\n");
+		scanf("%d",&ch);
+	}while(ch==1);
+}
+
+void insertt()
+{
+	push(10);
+	push(20);
+	push(30);
+	push(40);		
+    head->next->next->next->next = head;	
+}
+void push(int data)
+{
+	struct node *def=(struct node*)malloc(sizeof(struct node));
+	def->data=data;
+	def->next=head;
+	head=def;
+}
+void display()
+{
+	struct node *temp;
+	temp=head->next;
+	while(temp!=head)
+	{
+		printf("%d\n",temp->data);
+		temp=temp->next;
+	}
+		printf("%d\n",temp->data);
+	
+}
+
+void floydCycle()
+{
+	struct node *slow,*fast;
+	slow=head;
+	fast=head;
+	int flag=0;
+	while(slow && fast && fast->next)
+	{
+		slow=slow->next;
+		fast=fast->next->next;
+		if(slow==fast)
+		{
+			flag=1;
+			break;
+		}
+	}
+	if(flag==1)
+	{
+		printf("Cycle is Detect");
+	}
+	else
+	{
+		printf("Cycle is Not detected");
+	}
+}
